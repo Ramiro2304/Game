@@ -1,0 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class GameManager : MonoBehaviour
+{
+    public bool isGameOver = false;
+    public Text winText;
+
+    // Resto del código...
+
+    private void OnGUI()
+    {
+        if (isGameOver)
+        {
+            GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "Has perdido");
+        }
+    }
+    public void WinGame()
+    {
+        winText.text = "Has Ganado";
+    }
+}
