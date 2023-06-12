@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyMovement : MonoBehaviour
+{
+    public List<Transform> targets; // Lista de posiciones de los objetivos
+    public float speed = 5f; // Velocidad de movimiento
+
+    private int currentTargetIndex = 0;
+
+    private void Update()
+    {
+        if (targets.Count == 0)
+            return;
+
+        // Mueve al enemigo hacia el objetivo actual
+        Transform currentTarget = targets[currentTargetIndex];
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
+
+        // Si el enemigo alcanza el objetivo actual, pasa al siguiente
+        if (transform.position == currentTarget.position)
+        {
+            currentTargetIndex = (currentTargetIndex + 1) % targets.Count;
+        }
+    }
