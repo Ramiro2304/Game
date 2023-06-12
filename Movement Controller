@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MovementController : MonoBehaviour
+{
+    public float speed = 5f; // Velocidad de movimiento normal
+    public float runSpeedMultiplier = 1.5f; // Multiplicador de velocidad al correr
+
+    private Rigidbody rb;
+    private bool isRunning = false;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        float currentSpeed = isRunning ? speed * runSpeedMultiplier : speed;
+
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        movement.Normalize();
+
+        rb.velocity = movement * currentSpeed;
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            isRunning = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.F))
+        {
+            isRunning = false;
+        }
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) // Comprueba si la capa de colisión es la capa "Ground"
+        {
+            // Restringe el movimiento vertical del Rigidbody para evitar que el personaje se caiga
+            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            // Permite el movimiento vertical del Rigidbody una vez que el personaje ya no está en contacto con el suelo
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+        }
+    }
+}
