@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class WinObject : MonoBehaviour
+{
+    public Text winText;
+    private bool hasWon = false;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && !hasWon)
+        {
+            hasWon = true;
+            winText.text = "You Win";
+            winText.enabled = true;
+        }
+    }
+}
