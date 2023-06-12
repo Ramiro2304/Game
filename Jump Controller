@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class JumpController : MonoBehaviour
+{
+    public float jumpForce = 5f;               // Fuerza del salto
+    public float doubleJumpForce = 10f;         // Fuerza del salto doble
+    private bool canJump = true;               // Variable para verificar si puede saltar
+    private bool canDoubleJump = false;        // Variable para verificar si puede hacer salto doble
+    private Rigidbody rb;                      // Referencia al componente RigidBody
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+    void Update()
+    {
+        if (canJump && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(new Vector3(5f, jumpForce, 5f), ForceMode.Impulse);
+            canJump = false;
+            canDoubleJump = true;
+        }
+        else if (canDoubleJump && Input.GetMouseButtonDown(1))
+        {
+            rb.AddForce(new Vector3(10f, doubleJumpForce, 10f), ForceMode.Impulse);
+            canDoubleJump = false;
+        }
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        canJump = true;
+        canDoubleJump = false;
+    }
+}
