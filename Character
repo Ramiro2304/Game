@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Character : MonoBehaviour
+{
+    public int life = 100;
+    public GameManager gameManager;
+
+    // Resto del código...
+
+    void Update()
+    {
+        if (life <= 0)
+        {
+            gameManager.isGameOver = true;
+            // Resto del código...
+        }
+    }
+}
